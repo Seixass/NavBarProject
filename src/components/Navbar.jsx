@@ -1,13 +1,11 @@
-// Navbar.js
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import home from '/home.png';
 import graficos from '/graficos.png';
 import estoque from '/estoque.png';
 import agendamento from '/agendamento.png';
-import relatoriosDiario from '/relatorioDiario.png'
+import relatoriosDiario from '/relatorioDiario.png';
 
-// Estilos para a Navbar
 const NavbarContainer = styled.nav`
   background-color: #2B439C;
   padding: 0.5rem;
@@ -44,13 +42,21 @@ const NavLink = styled.a`
   font-size: 0.8rem;
   text-align: center;
   padding: 5px;
+  transition: 0.4s;
+
   &:hover {
-    transition: 0.3s;
     background-color: #ffffff89;
-    padding: 5px;
     border-radius: 10px;
     color: #ffffff;
   }
+
+  ${({ isActive }) =>
+    isActive &&
+    `
+    background-color: #ffffff89;
+    border-radius: 10px;
+    color: #ffffff;
+  `}
 `;
 
 const NavIcon = styled.img`
@@ -59,34 +65,39 @@ const NavIcon = styled.img`
   margin-bottom: 5px;
 `;
 
-// Componente Navbar
 const Navbar = () => {
+  const [activeItem, setActiveItem] = useState('Home');
+
+  const handleItemClick = (itemName) => {
+    setActiveItem(itemName);
+  };
+
   return (
     <NavbarContainer>
       <NavMenu>
         <NavItem>
-          <NavLink href="Estoque">
-          <NavIcon src={estoque} alt="Estoque" />
+          <NavLink href="Estoque" isActive={activeItem === 'Estoque'} onClick={() => handleItemClick('Estoque')}>
+            <NavIcon src={estoque} alt="Estoque" />
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink href="#">
-          <NavIcon src={graficos} alt="Graficos" />
+          <NavLink href="Graficos" isActive={activeItem === 'Graficos'} onClick={() => handleItemClick('Graficos')}>
+            <NavIcon src={graficos} alt="Graficos" />
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink href="App">
-          <NavIcon src={home} alt="Home" />
+          <NavLink href="/Home" isActive={activeItem === 'Home'} onClick={() => handleItemClick('Home')}>
+            <NavIcon src={home} alt="Home" />
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink href="#">
-          <NavIcon src={agendamento} alt="Agendamento" />
+          <NavLink href="Agendamento" isActive={activeItem === 'Agendamento'} onClick={() => handleItemClick('Agendamento')}>
+            <NavIcon src={agendamento} alt="Agendamento" />
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink href="#">
-          <NavIcon src={relatoriosDiario} alt="relatoriosDiario" />
+          <NavLink href="RelatoriosDiario" isActive={activeItem === 'RelatoriosDiario'} onClick={() => handleItemClick('RelatoriosDiario')}>
+            <NavIcon src={relatoriosDiario} alt="RelatoriosDiario" />
           </NavLink>
         </NavItem>
       </NavMenu>
